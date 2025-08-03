@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awesome Digital Clock</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom CSS for a modern, enhanced feel */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: all 0.8s ease;
+        }
+
+        /* Dark mode styles with an advanced gradient background */
+        body.dark-mode {
+            background: linear-gradient(135deg, #100f24 0%, #0d121d 50%, #20202e 100%);
+            color: #d1d5db;
+        }
+
+        .container-dark {
+            background: linear-gradient(135deg, rgba(22, 27, 34, 0.8) 0%, rgba(26, 30, 40, 0.8) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(48, 54, 61, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+        
+        .gradient-text-dark {
+            background: linear-gradient(45deg, #8b5cf6, #3b82f6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* New gradient for AM/PM in dark mode */
+        .ampm-gradient-dark {
+            background: linear-gradient(45deg, #f97316, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Light mode styles with an advanced gradient background */
+        body.light-mode {
+            background: linear-gradient(135deg, #eef3f7 0%, #f0f4f8 50%, #f8fbfc 100%);
+            color: #1f2937;
+        }
+
+        .container-light {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(240, 244, 248, 0.8) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .gradient-text-light {
+            background: linear-gradient(45deg, #1d4ed8, #059669, #ca8a04);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* New gradient for AM/PM in light mode */
+        .ampm-gradient-light {
+            background: linear-gradient(45deg, #0d9488, #22c55e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .time-unit {
+            /* Responsive font sizing using clamp for better control on different screens */
+            font-size: clamp(2rem, 10vw, 3rem);
+            line-height: 1;
+            font-weight: 700;
+            transition: all 0.5s ease;
+        }
+
+        .divider {
+            font-size: clamp(1.5rem, 7vw, 2rem);
+            line-height: 1;
+            font-weight: 700;
+            transition: all 0.5s ease;
+        }
+
+        .toggle-button-gradient-dark {
+            background: linear-gradient(45deg, #a78bfa, #8b5cf6);
+        }
+
+        .toggle-button-gradient-light {
+            background: linear-gradient(45deg, #3b82f6, #2563eb);
+        }
+
+    </style>
+</head>
+<body class="dark-mode">
+    <div class="flex flex-col items-center justify-center min-h-screen p-4">
+        <!-- Theme toggle button -->
+        <button id="theme-toggle" class="absolute top-4 right-4 p-2 rounded-full shadow-lg transition-all duration-300 toggle-button-gradient-dark">
+            <svg id="sun-icon" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <svg id="moon-icon" class="h-6 w-6 text-white hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+        </button>
+        
+        <!-- Responsive wrapper for the main content -->
+        <div class="w-full max-w-4xl mx-auto p-4 sm:p-8">
+            <div id="full-date" class="text-center text-xl sm:text-3xl font-semibold mb-8 tracking-wide">
+                <span id="day-of-week"></span>, <span id="month"></span> <span id="day-of-month"></span>
+            </div>
+            
+            <div id="clock" class="flex flex-col items-center space-y-4 p-8 rounded-2xl container-dark">
+                <div class="flex items-end space-x-2 sm:space-x-4">
+                    <div id="hours" class="time-unit gradient-text-dark">00</div>
+                    <div class="flex flex-col items-center justify-center mb-4">
+                        <span id="divider1" class="divider gradient-text-dark">:</span>
+                    </div>
+                    <div id="minutes" class="time-unit gradient-text-dark">00</div>
+                    <div class="flex flex-col items-center justify-center mb-4">
+                        <span id="divider2" class="divider gradient-text-dark">:</span>
+                    </div>
+                    <div id="seconds" class="time-unit gradient-text-dark">00</div>
+                    <!-- AM/PM indicator -->
+                    <div class="flex flex-col items-center justify-center self-end mb-1">
+                        <span id="ampm" class="text-lg sm:text-2xl font-bold tracking-wider ampm-gradient-dark">AM</span>
+                    </div>
+                </div>
+                <div id="attribution" class="text-sm font-light text-gray-400 gradient-text-dark">
+                    made by Lote Michael
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+            const ampmElement = document.getElementById('ampm');
+
+            // Function to pad a single-digit number with a leading zero
+            const formatTime = (time) => String(time).padStart(2, '0');
+
+            // Main function to update the clock display
+            const updateClock = () => {
+                const now = new Date();
+                let hours = now.getHours();
+                const minutes = now.getMinutes();
+                const seconds = now.getSeconds();
+
+                // Date display
+                document.getElementById('day-of-week').textContent = daysOfWeek[now.getDay()];
+                document.getElementById('month').textContent = months[now.getMonth()];
+                document.getElementById('day-of-month').textContent = now.getDate();
+                
+                // Displaying time in 12-hour format with AM/PM
+                const isPm = hours >= 12;
+                ampmElement.textContent = isPm ? 'PM' : 'AM';
+                
+                if (hours > 12) {
+                    hours -= 12;
+                } else if (hours === 0) {
+                    hours = 12;
+                }
+                
+                // Hours will now be padded with a leading zero
+                document.getElementById('hours').textContent = formatTime(hours);
+                document.getElementById('minutes').textContent = formatTime(minutes);
+                document.getElementById('seconds').textContent = formatTime(seconds);
+            };
+
+            // Dark/Light mode toggle logic
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('sun-icon');
+            const moonIcon = document.getElementById('moon-icon');
+            const clockContainer = document.getElementById('clock');
+            const gradientElements = document.querySelectorAll('.time-unit, .divider, #attribution');
+
+            const toggleTheme = () => {
+                const isDarkMode = document.body.classList.toggle('dark-mode');
+                document.body.classList.toggle('light-mode');
+                
+                if (isDarkMode) {
+                    clockContainer.classList.remove('container-light');
+                    clockContainer.classList.add('container-dark');
+                    sunIcon.classList.remove('hidden');
+                    moonIcon.classList.add('hidden');
+                    themeToggleBtn.classList.remove('toggle-button-gradient-light');
+                    themeToggleBtn.classList.add('toggle-button-gradient-dark');
+                    gradientElements.forEach(el => {
+                        el.classList.remove('gradient-text-light');
+                        el.classList.add('gradient-text-dark');
+                    });
+                    ampmElement.classList.remove('ampm-gradient-light');
+                    ampmElement.classList.add('ampm-gradient-dark');
+                } else {
+                    clockContainer.classList.remove('container-dark');
+                    clockContainer.classList.add('container-light');
+                    sunIcon.classList.add('hidden');
+                    moonIcon.classList.remove('hidden');
+                    themeToggleBtn.classList.remove('toggle-button-gradient-dark');
+                    themeToggleBtn.classList.add('toggle-button-gradient-light');
+                    gradientElements.forEach(el => {
+                        el.classList.remove('gradient-text-dark');
+                        el.classList.add('gradient-text-light');
+                    });
+                    ampmElement.classList.remove('ampm-gradient-dark');
+                    ampmElement.classList.add('ampm-gradient-light');
+                }
+            };
+            themeToggleBtn.addEventListener('click', toggleTheme);
+            
+            // Set initial AM/PM gradient class based on current theme
+            if (document.body.classList.contains('dark-mode')) {
+                ampmElement.classList.add('ampm-gradient-dark');
+            } else {
+                ampmElement.classList.add('ampm-gradient-light');
+            }
+
+            // Initial call to set the time and day immediately
+            updateClock();
+
+            // Call the updateClock function every second
+            setInterval(updateClock, 1000);
+        });
+    </script>
+</body>
+</html>
