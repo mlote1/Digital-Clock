@@ -1,0 +1,82 @@
+/* Custom CSS for a modern, enhanced feel */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    transition: all 0.8s ease;
+}
+
+/* Dark mode styles with an advanced gradient background */
+body.dark-mode {
+    background: linear-gradient(135deg, #100f24 0%, #0d121d 50%, #20202e 100%);
+    color: #d1d5db;
+}
+
+.container-dark {
+    background: linear-gradient(135deg, rgba(22, 27, 34, 0.8) 0%, rgba(26, 30, 40, 0.8) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(48, 54, 61, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.gradient-text-dark {
+    background: linear-gradient(45deg, #8b5cf6, #3b82f6, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* New gradient for AM/PM in dark mode */
+.ampm-gradient-dark {
+    background: linear-gradient(45deg, #f97316, #ef4444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Light mode styles with an advanced gradient background */
+body.light-mode {
+    background: linear-gradient(135deg, #eef3f7 0%, #f0f4f8 50%, #f8fbfc 100%);
+    color: #1f2937;
+}
+
+.container-light {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(240, 244, 248, 0.8) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(226, 232, 240, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.gradient-text-light {
+    background: linear-gradient(45deg, #1d4ed8, #059669, #ca8a04);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* New gradient for AM/PM in light mode */
+.ampm-gradient-light {
+    background: linear-gradient(45deg, #0d9488, #22c55e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.time-unit {
+    /* Responsive font sizing using clamp for better control on different screens */
+    font-size: clamp(2rem, 10vw, 3rem);
+    line-height: 1;
+    font-weight: 700;
+    transition: all 0.5s ease;
+}
+
+.divider {
+    font-size: clamp(1.5rem, 7vw, 2rem);
+    line-height: 1;
+    font-weight: 700;
+    transition: all 0.5s ease;
+}
+
+.toggle-button-gradient-dark {
+    background: linear-gradient(45deg, #a78bfa, #8b5cf6);
+}
+
+.toggle-button-gradient-light {
+    background: linear-gradient(45deg, #3b82f6, #2563eb);
+}
